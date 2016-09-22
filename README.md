@@ -1,2 +1,2 @@
-# CIVE
-CIVE stands for Cards in Virtual Environment. This will hopefully provide a medium where multiple people can play cards without the need for actual cards or the need to be in the same location. 
+# Cards in Virtual Environment (CIVE)
+This project was conceived in March 2017 when two card-game-loving individuals wanted to find a way to play cards without the need for physical cards. The idea is to create a flexible platform for tablesets for various card games to take place, even halfway across the world. 
