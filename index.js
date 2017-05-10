@@ -5,11 +5,11 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var path = require('path');
 
 var currentGames = {};
-var numberOfGames = 0;
 
-app.use(express.static("client"));
+app.use(express.static(path.join(__dirname, 'client')));
 
 io.on('connection', function(socket) {
     console.log('' + socket.id + ' connected');
@@ -29,7 +29,7 @@ io.on('connection', function(socket) {
 
     socket.on('create game', function(name) {
         var code;
-        const codeCharacters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const codeCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         do {
             code = "";
             for (var i = 0; i < 6; i++) {
@@ -53,7 +53,6 @@ io.on('connection', function(socket) {
         var players = {};
         currentGames[code] = players;
         currentGames[code][socket.id] = name;
-        numberOfGames++;
 
         socket.join(code);
         io.to(socket.id).emit('join success', name, code);

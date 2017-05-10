@@ -5,6 +5,39 @@ var socket = io();
 var name;
 var gameCode;
 
+var whichButton;
+
+function startGame() {
+    if (whichButton === 1) {
+        generateCode();
+    } else if (whichButton === 2) {
+        joinGame();
+    } else {
+        alert("Something went terribly wrong.");
+    }
+}
+
+function newGameButton() {
+    whichButton = 1;
+    var nameInput = document.getElementById("name-input");
+    var codeInput = document.getElementById("game-code-input");
+    var startGameButton = document.getElementById("start-game-button");
+
+    nameInput.style.display = "inline-block";
+    codeInput.style.display = "none";
+    startGameButton.style.display = "inline-block";
+}
+
+function joinGameButton() {
+    whichButton = 2;
+    var nameInput = document.getElementById("name-input");
+    var codeInput = document.getElementById("game-code-input");
+    var startGameButton = document.getElementById("start-game-button");
+
+    nameInput.style.display = "inline-block";
+    codeInput.style.display = "inline-block";
+    startGameButton.style.display = "inline-block";
+}
 
 function generateCode() {
     var nameInput = document.getElementById("name-input").value;
@@ -35,7 +68,7 @@ socket.on('update players', function(playerList) {
 });
 
 socket.on('join success', function(name, code) {
-    document.getElementById("start").style.display = "none";
+    document.getElementById("start-screen").style.display = "none";
     document.getElementById("game").style.display = "inherit";
     document.getElementById("game-code").innerHTML = code;
     document.getElementById("name").innerHTML = name;
