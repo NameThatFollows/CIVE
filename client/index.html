@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="./style.css">
+        <title>CIVE | Cards In Virtual Environment</title>
+    </head>
+
+    <body>
+        <div id="start">
+            CARDS IN VIRTUAL ENVIRONMENT
+            <input id="name-input" placeholder="Name"></input>
+            <input id="game-code-input" placeholder="Game Code" maxlength="6"></input>
+            <button onclick="generateCode()">New Game</button>
+            <button onclick="joinGame()">Join Game</button>
+        </div>
+
+        <div id="game">
+            THIS TEXT IS A TEST OF THE GEORGIA TECH EMERGENCY NOTIFICATION SYSTEM <br /><br />
+            YOUR GAME CODE: <span id="game-code"></span><br />
+            YOUR NAME: <span id="name"></span>
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="./script.js"></script>
+    </body>
+</html>

@@ -1,2 +1,2 @@
 # Cards in Virtual Environment (CIVE)
-This project was conceived in March 2017 when two card-game-loving individuals wanted to find a way to play cards without the need for physical cards. The idea is to create a flexible platform for tablesets for various card games to take place, even halfway across the world. 
+This project was conceived in March 2016 when two card-game-loving individuals wanted to find a way to play cards without the need for physical cards. The idea is to create a flexible canvas for any card game to take place, even halfway across the world. 
