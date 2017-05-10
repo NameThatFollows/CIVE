@@ -25,6 +25,15 @@ function joinGame() {
     }
 }
 
+socket.on('update players', function(playerList) {
+    var playerDiv = document.getElementById("player-list");
+    playerDiv.innerHTML = "<ul>";
+    for (var player in playerList) {
+        playerDiv.innerHTML += "<li>" + playerList[player] + "</li>";
+    }
+    playerDiv.innerHTML += "</ul>";
+});
+
 socket.on('join success', function(name, code) {
     document.getElementById("start").style.display = "none";
     document.getElementById("game").style.display = "inherit";
