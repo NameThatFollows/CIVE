@@ -41,7 +41,7 @@ io.on('connection', function(socket) {
 
     socket.on('create game', function() {
         var code;
-        const codeCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const codeCharacters = 'abcdefghijklmnopqrstuvwxyz';
         do {
             code = "";
             for (var i = 0; i < 6; i++) {

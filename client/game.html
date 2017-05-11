@@ -6,7 +6,7 @@
         <title>CIVE | Cards In Virtual Environment</title>
     </head>
 
-    <body onload="addPlayer()">
+    <body onload="addPlayer()" onresize="resizeCanvas()">
         <div id="game-settings">
             <div id="flyout-trigger">
                 <div id="game-settings-label">
@@ -14,12 +14,23 @@
                 </div>
             </div>
             <div id="game-settings-content">
-                YOUR GAME CODE: <span id="flyout-game-code"></span><br />
-                THIS IS A TEST OF THE GEORGIA TECH EMERGENCY NOTIFICATION SYSTEM.<br />
-                CURRENTLY PLAYING: <span id="flyout-currently-playing"></span><br/>
-                YOUR NAME: <span id="flyout-name"></span><br />
-                CURRENT PLAYERS: 
-                <div id="player-list"></div>
+                <div class="center">
+                    <br />
+                    Welcome <span id="flyout-name"></span><br /><br />
+                    GAME CODE: <br /><span id="flyout-game-code"></span><br /><br />
+                    CURRENTLY PLAYING: <br /><span id="flyout-currently-playing"></span><br/><br />
+                
+                    PLAYERS:
+                </div>
+                <ul><div id="player-list"></div></ul>
+            </div>
+        </div>
+
+        <div id="board">
+            <div id="board-wrapper">
+                <canvas id="game-board" width="1920", height="1080">
+                    There should be a gameboard here. Javascript should be enabled.
+                </canvas>
             </div>
         </div>
 

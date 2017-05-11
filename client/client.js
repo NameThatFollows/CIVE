@@ -28,6 +28,7 @@ function goBackButton() {
 
 function joinGame() {
     var codeInput = document.getElementById("game-code-input").value;
+    codeInput = codeInput.toLowerCase();
     if (codeInput && codeInput.length === 6) {
         socket.emit('check valid game code', codeInput);
     } else {

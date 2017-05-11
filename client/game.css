@@ -6,9 +6,28 @@
     padding: 0;
 }
 
+body {
+    background-color: #CCCCCC;
+}
 
+ul {
+    margin: 0 30px;
+    list-style-type: none;
+}
+
+li {
+    line-height: 1.5em;
+}
+
+canvas {
+    height: 100%;
+    width: auto;
+}
 
 /* DIVs */
+div.center {
+    text-align: center;
+}
 
 div#game-settings {
     opacity: 0.7;
@@ -24,10 +43,12 @@ div#game-settings {
 div#game-settings-content {
     position: fixed;
     background-color: #EEEEEE;
+    overflow-y: scroll;
     top: 0;
-    width: 250px;
-    height: 100vh;
+    width: 230px;
+    height: 100%;
     left: -250px;
+    padding: 10px;
     -webkit-transition-duration: 0.3s;
     -moz-transition-duration: 0.3s;
     -o-transition-duration: 0.3s;
@@ -61,4 +82,22 @@ div#game-settings-label p {
     width: 200px;
     text-align: center;
     font-size: 1.5em;
+}
+
+div#board {
+    padding: 10px 10px 10px 70px;
+    margin: 0 auto;
+}
+
+div#board-wrapper {
+}
+
+/* SPANS */
+span#flyout-game-code {
+    font-family: monospace;
+    font-size: 2em;
+}
+
+span#flyout-name {
+    font-weight: 700;
 }
