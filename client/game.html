@@ -6,7 +6,7 @@
         <title>CIVE | Cards In Virtual Environment</title>
     </head>
 
-    <body onload="addPlayer()" onresize="resizeCanvas()">
+    <body onload="init()" onresize="resizeCanvas()">
         <div id="game-settings">
             <div id="flyout-trigger">
                 <div id="game-settings-label">
@@ -19,6 +19,8 @@
                     Welcome <span id="flyout-name"></span><br /><br />
                     GAME CODE: <br /><span id="flyout-game-code"></span><br /><br />
                     CURRENTLY PLAYING: <br /><span id="flyout-currently-playing"></span><br/><br />
+                    YOUR CARD DECKS: <br />
+                    <span id="flyout-card-decks"></span><br /><br />
                 
                     PLAYERS:
                 </div>
@@ -35,6 +37,7 @@
         </div>
 
         <script src="/socket.io/socket.io.js"></script>
+        <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
         <script src="../game.js"></script>
     </body>
 </html>

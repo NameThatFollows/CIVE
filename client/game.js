@@ -6,7 +6,22 @@ var name;
 var code;
 
 var canvas = document.getElementById("game-board");
+var stage = new createjs.Stage(canvas);
 var ctx = canvas.getContext('2d');
+
+var cardAssets = {};
+
+function init() {
+    addPlayer();
+
+    // enable touch interactions for those devices that support it
+    createjs.Touch.enable(stage);
+
+    stage.enableMouseOver(10); // 20 updates per second
+    stage.mouseMoveOutside = true;
+
+    loadCards();
+}
 
 /**
  * Resizes canvas to fill as much as the screen as possible without distortion. 
@@ -21,10 +36,70 @@ function resizeCanvas() {
         boardWrapper.style.height = maxCanvasHeight + "px";
         boardWrapper.style.width = (maxCanvasHeight * 16) / 9 + "px";
     } else {
-        console.log(maxCanvasHeight);
         boardWrapper.style.width = maxCanvasWidth + "px";
         boardWrapper.style.height = (maxCanvasWidth / 16) * 9 + "px";
     }
+}
+
+function loadCards() {
+    for (var i = 1; i <= 13; i++) {
+        var image = new Image();
+        image.name = "c" + i;
+        image.src = "../assets/c" + i + ".png";
+        image.onload = handleImageLoad;
+    }
+
+    for (var i = 1; i <= 13; i++) {
+        var image = new Image();
+        image.name = "d" + i;
+        image.src = "../assets/d" + i + ".png";
+        image.onload = handleImageLoad;
+    }
+
+    for (var i = 1; i <= 13; i++) {
+        var image = new Image();
+        image.name = "h" + i;
+        image.src = "../assets/h" + i + ".png";
+        image.onload = handleImageLoad;
+    }
+
+    for (var i = 1; i <= 13; i++) {
+        var image = new Image();
+        image.name = "s" + i;
+        image.src = "../assets/s" + i + ".png";
+        image.onload = handleImageLoad;
+    }
+
+    var image = new Image();
+    image.name = "j";
+    image.src = "../assets/j.png";
+    image.onload = handleImageLoad;
+
+    image = new Image();
+    image.name = "bb";
+    image.src = "../assets/bb.png";
+    image.onload = handleImageLoad;
+
+    image = new Image();
+    image.name = "bg";
+    image.src = "../assets/bg.png";
+    image.onload = handleImageLoad;
+
+    image = new Image();
+    image.name = "br";
+    image.src = "../assets/br.png";
+    image.onload = handleImageLoad;
+
+    console.log(cardAssets);
+}
+
+function handleImageLoad(e) {
+    var image = e.target;
+    var container = new createjs.Container();
+    stage.addChild(container);
+
+    var bitmap = new createjs.Bitmap(image);
+    container.addChild()
 }
 
 function addPlayer() {
@@ -64,9 +139,7 @@ socket.on('update players', function(playerList) {
 ctx.fillStyle = '#FFFFFF';
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-ctx.fillStyle = '#FF0000';
-ctx.fillRect(100, 100, 100, 100);
-
 ctx.lineWidth = 5;
 ctx.strokeStyle = "#000000";
 ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
