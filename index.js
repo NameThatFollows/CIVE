@@ -85,12 +85,11 @@ io.on('connection', function(socket) {
     });
 
     socket.on('check valid game code', function(code) {
-        console.log(currentGames);
         if (currentGames[code]) {
             console.log(code);
             io.to(socket.id).emit('game code valid', code);
         } else {
-            console.log("SORRY");
+            io.to(socket.id).emit('game code invalid');
         }
     });
 });

@@ -29,11 +29,23 @@
                     <button onclick="joinGame()" id="join-button">JOIN</button>
                     <button onclick="goBackButton()" id="back-button">BACK</button>
                 </div>
-            </div>
 
+                <div id="bottom-content">
+                    <hr />
+
+                    <p>Welcome to Cards in Virtual Environment, more easily referred to as CIVE (with a hard C). Unfortunately, the name of this project is unfortunate. This project was conceived in March 2016 when two card-game-loving individuals wanted to find a way to play cards without the need for physical cards. The idea is to create a flexible canvas for any card game to take place, even halfway across the world.</p>
+
+                    <p>To get started, simply create a room by pressing "New Game" above. If you have a game code from another person, press "Join Game" and type in the game code. Be careful not to refresh the page while you are in the game. Refreshing the page will reset your session. When all players leave the room, the room will be automatically deleted. </p>
+
+                    <p>When you enter the room, the page will have your game board and a deck of cards. As you move cards around, the other players will be able to see the movement of these cards. There is a section called your hand where cards will be hidden from other players. If you click on "Game Settings," you can change the number of decks of cards, the layout of the table, and more. "Game Settings" also contains a list of the current players in the room and your game code for others to join.</p>
+                </div>
+
+                
+            </div>
             <div id="footer">
                 <p>Made with &#10084 by <a href="https://github.com/NameThatFollows">NameThatFollows</a></p>
             </div>
+            
         </div>
 
         <script src="/socket.io/socket.io.js"></script>

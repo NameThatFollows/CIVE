@@ -5,8 +5,9 @@
     padding: 0;
 }
 
-html, body {
+body {
     font-family: 'Raleway', sans-serif;
+    padding: 0 20px;
 }
 
 p {
@@ -25,7 +26,7 @@ h2 {
 }
 
 hr {
-    margin: 20px 0 30px 0;
+    margin: 30px 0;
     color: #777777;
 }
 
@@ -62,24 +63,20 @@ input#game-code-input {
 
 div#start-screen {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
 
     text-align: center;
-    
-    width: 100vw;
-    height: 100vh;
+
+    margin-top: 50px;
 }
 
 div#start {
-    margin-top: auto;
-    margin-bottom: 7%;
+    max-width: 675px;
+    margin: 0 auto;
 }
 
 div#footer {
-    margin-top: auto;
-    margin-bottom: 10px;
+    margin-top: 50px;
 }
 
 div#new-game {
@@ -88,6 +85,11 @@ div#new-game {
 
 div#join-game {
     display: none;
+}
+
+div#bottom-content {
+    text-align: left;
+    line-height: 1.5em;
 }
 
 a#game-href {
