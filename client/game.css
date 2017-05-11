@@ -95,7 +95,7 @@ div#board-wrapper {
 /* SPANS */
 span#flyout-game-code {
     font-family: monospace;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 span#flyout-name {
