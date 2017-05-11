@@ -1,9 +1,16 @@
 /* STANDARD TAGS */
 
 * {
-    font-family: 'Raleway', sans-serif;
     margin: 0;
     padding: 0;
+}
+
+html, body {
+    font-family: 'Raleway', sans-serif;
+}
+
+p {
+    padding-bottom: 10px;
 }
 
 h1 {
@@ -18,7 +25,7 @@ h2 {
 }
 
 hr {
-    margin: 10px 0 20px 0;
+    margin: 20px 0 30px 0;
     color: #777777;
 }
 
@@ -26,12 +33,13 @@ button {
     background: none;
     outline: none;
     width: 120px;
-    height: 40px;
+    height: 45px;
     border-radius: 5px;
     border: 1px solid #777777;
     font-weight: 700;
     color: #777777;
     cursor: pointer;
+    margin: 0 8px;
 }
 
 button:hover {
@@ -39,24 +47,14 @@ button:hover {
     color: #000000;
 }
 
-input#name-input {
-    display: none;
-    margin: 20px 0 10px;
-}
-
-input#game-code-input {
-    display: none;
-    margin: 10px 0;
-}
-
-button#start-game-button {
-    display: none;
-}
-
 input {
     padding: 10px;
     outline: none;
     width: 200px;
+}
+
+input#game-code-input {
+    margin: 0 0 25px;
 }
 
 
@@ -84,6 +82,16 @@ div#footer {
     margin-bottom: 10px;
 }
 
-div#game {
+div#new-game {
     display: none;
+}
+
+div#join-game {
+    display: none;
+}
+
+a#game-href {
+    font-family: monospace;
+    font-size: 3em;
+    color: #000000;
 }

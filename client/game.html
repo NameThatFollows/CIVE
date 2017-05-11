@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../game.css">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+        <title>CIVE | Cards In Virtual Environment</title>
+    </head>
+
+    <body onload="addPlayer()">
+        <div id="game-settings">
+            <div id="flyout-trigger">
+                <div id="game-settings-label">
+                    <p>GAME SETTINGS</p>
+                </div>
+            </div>
+            <div id="game-settings-content">
+                THIS IS A TEST OF THE GEORGIA TECH EMERGENCY NOTIFICATION SYSTEM.<br />
+                CURRENTLY PLAYING: <span id="flyout-currently-playing"></span><br/>
+                YOUR GAME CODE: <span id="flyout-game-code"></span><br />
+                YOUR NAME: <span id="flyout-name"></span><br />
+                CURRENT PLAYERS: 
+                <div id="player-list"></div>
+            </div>
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="../game.js"></script>
+    </body>
+</html>

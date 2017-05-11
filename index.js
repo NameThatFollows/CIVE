@@ -9,7 +9,19 @@ var path = require('path');
 
 var currentGames = {};
 
-app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, '/client')));
+
+app.get('/:id', function(req, res) {
+    if (currentGames[req.params.id]) {
+        res.sendFile(path.join(__dirname, 'client/game.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client/client.html'));
+});
 
 io.on('connection', function(socket) {
     console.log('' + socket.id + ' connected');
@@ -27,7 +39,7 @@ io.on('connection', function(socket) {
         console.log('' + socket.id + ' disconnected');
     });
 
-    socket.on('create game', function(name) {
+    socket.on('create game', function() {
         var code;
         const codeCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         do {
@@ -52,26 +64,33 @@ io.on('connection', function(socket) {
          */
         var players = {};
         currentGames[code] = players;
-        currentGames[code][socket.id] = name;
-
-        socket.join(code);
-        io.to(socket.id).emit('join success', name, code);
+        io.to(socket.id).emit('join success', code);
         updatePlayers(code);
-
         console.log(currentGames);
     });
 
     socket.on('join game', function(name, code) {
         if (currentGames[code]) {
             currentGames[code][socket.id] = name;
-            io.to(socket.id).emit('join success', name, code);
             console.log(currentGames);
 
             // Join room named by the code
             socket.join(code);
             updatePlayers(code);
+
+            io.to(socket.id).emit('join success', name, code);
         } else {
             io.to(socket.id).emit('join game fail');
+        }
+    });
+
+    socket.on('check valid game code', function(code) {
+        console.log(currentGames);
+        if (currentGames[code]) {
+            console.log(code);
+            io.to(socket.id).emit('game code valid', code);
+        } else {
+            console.log("SORRY");
         }
     });
 });

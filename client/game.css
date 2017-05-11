@@ -1,0 +1,64 @@
+/* STANDARD TAGS */
+
+* {
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/* DIVs */
+
+div#game-settings {
+    opacity: 0.7;
+    position: fixed;
+    top: 0;
+    left: 0;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+}
+
+div#game-settings-content {
+    position: fixed;
+    background-color: #EEEEEE;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    left: -250px;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+}
+
+div#game-settings:hover {
+    left: 250px;
+    opacity: 1;
+}
+
+div#game-settings:hover #game-settings-content {
+    left: 0px;
+}
+
+div#flyout-trigger {
+    height: 250px;
+    width: 50px;
+    background-color: #00AA00;
+}
+
+div#game-settings-label {
+    position: absolute;
+    top: 44%;
+}
+
+div#game-settings-label p {
+    color: #FFF;
+    position: relative;
+    transform: rotate(-90deg) translateY(-76px);
+    width: 200px;
+    text-align: center;
+    font-size: 1.5em;
+}
