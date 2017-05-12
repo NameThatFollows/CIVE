@@ -2,8 +2,14 @@
 
 var socket = io();
 
+var flyoutOpen = false;
+
 var name;
 var code;
+var mouseTarget;
+var dragStarted;
+var offset;
+var update = true;
 
 var canvas = document.getElementById("game-board");
 var stage = new createjs.Stage(canvas);
@@ -99,7 +105,48 @@ function handleImageLoad(e) {
     stage.addChild(container);
 
     var bitmap = new createjs.Bitmap(image);
-    container.addChild()
+    container.addChild(bitmap);
+    bitmap.x = 500;
+    bitmap.y = 500;
+    bitmap.regX = bitmap.image.width / 2;
+    bitmap.regY = bitmap.image.height / 2;
+    bitmap.scaleX = bitmap.scaleY = bitmap.scale = .8;
+    bitmap.name = image.name;
+    bitmap.cursor = "pointer";
+
+    bitmap.on("mousedown", function(event) {
+        this.parent.addChild(this);
+        this.offset = {x: this.x - event.stageX, y: this.y - event.stageY};
+    });
+
+    bitmap.on("pressmove", function(event) {
+        this.x = event.stageX + this.offset.x;
+        this.y = event.stageY + this.offset.y;
+        update = true;
+    });
+
+    // bitmap.on("rollover", function(event) {
+        
+    //     update = true;
+    // });
+
+    // bitmap.on("rollout", function(event) {
+    //     this.scaleX = this.scaleY = this.scale;
+    //     update = true;
+    // });
+
+    createjs.Ticker.addEventListener("tick", tick);
+}
+
+function tick(e) {
+    if (update) {
+        update = false;
+        stage.update(e);
+    }
+}
+
+function stop() {
+    createjs.Ticker.removeEventListener("tick", tick);
 }
 
 function addPlayer() {
@@ -136,10 +183,12 @@ socket.on('update players', function(playerList) {
     }
 });
 
-ctx.fillStyle = '#FFFFFF';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+function openClose() {
+    if (flyoutOpen) {
+        flyoutOpen = false;
 
-ctx.lineWidth = 5;
-ctx.strokeStyle = "#000000";
-ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
+    } else {
+        flyoutOpen = true;
+        
+    }
+}

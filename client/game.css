@@ -22,6 +22,7 @@ li {
 canvas {
     height: 100%;
     width: auto;
+    background-color: #FFFFFF;
 }
 
 /* DIVs */
@@ -55,12 +56,12 @@ div#game-settings-content {
     transition-duration: 0.3s;
 }
 
-div#game-settings:hover {
+div#game-settings:active {
     left: 250px;
     opacity: 1;
 }
 
-div#game-settings:hover #game-settings-content {
+div#game-settings:active #game-settings-content {
     left: 0px;
 }
 
