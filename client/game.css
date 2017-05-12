@@ -39,6 +39,7 @@ div#game-settings {
     -moz-transition-duration: 0.3s;
     -o-transition-duration: 0.3s;
     transition-duration: 0.3s;
+    z-index: 10000;
 }
 
 div#game-settings-content {
@@ -56,13 +57,30 @@ div#game-settings-content {
     transition-duration: 0.3s;
 }
 
-div#game-settings:active {
+div#flyout-cover {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+}
+
+div#game-settings:hover {
     left: 250px;
     opacity: 1;
 }
 
-div#game-settings:active #game-settings-content {
+div#game-settings:hover #game-settings-content {
     left: 0px;
+}
+
+div#game-settings:hover + div#flyout-cover {
+    width: 100%;
 }
 
 div#flyout-trigger {

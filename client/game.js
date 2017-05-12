@@ -2,8 +2,6 @@
 
 var socket = io();
 
-var flyoutOpen = false;
-
 var name;
 var code;
 var mouseTarget;
@@ -23,7 +21,7 @@ function init() {
     // enable touch interactions for those devices that support it
     createjs.Touch.enable(stage);
 
-    stage.enableMouseOver(10); // 20 updates per second
+    stage.enableMouseOver(20); // 20 updates per second
     stage.mouseMoveOutside = true;
 
     loadCards();
@@ -115,7 +113,7 @@ function handleImageLoad(e) {
     bitmap.cursor = "pointer";
 
     bitmap.on("mousedown", function(event) {
-        this.parent.addChild(this);
+        container.addChild(this);
         this.offset = {x: this.x - event.stageX, y: this.y - event.stageY};
     });
 
@@ -182,13 +180,3 @@ socket.on('update players', function(playerList) {
         playerDiv.innerHTML += "<li>" + playerList[player] + "</li>";
     }
 });
-
-function openClose() {
-    if (flyoutOpen) {
-        flyoutOpen = false;
-
-    } else {
-        flyoutOpen = true;
-        
-    }
-}
