@@ -9,6 +9,8 @@ var dragStarted;
 var offset;
 var update = true;
 
+var container = new createjs.Container();
+
 var canvas = document.getElementById("game-board");
 var stage = new createjs.Stage(canvas);
 var ctx = canvas.getContext('2d');
@@ -99,7 +101,6 @@ function loadCards() {
 
 function handleImageLoad(e) {
     var image = e.target;
-    var container = new createjs.Container();
     stage.addChild(container);
 
     var bitmap = new createjs.Bitmap(image);
@@ -113,27 +114,26 @@ function handleImageLoad(e) {
     bitmap.cursor = "pointer";
 
     bitmap.on("mousedown", function(event) {
-        container.addChild(this);
+        this.parent.addChild(this);
         this.offset = {x: this.x - event.stageX, y: this.y - event.stageY};
+        this.scaleX = this.scaleY = this.scale * 1.2;
+        this.rotation = -5;
+        update = true;
     });
 
     bitmap.on("pressmove", function(event) {
         this.x = event.stageX + this.offset.x;
         this.y = event.stageY + this.offset.y;
+        stage.update(event);
+    });
+
+    bitmap.on("pressup", function(event) {
+        this.scaleX = this.scaleY = this.scale;
+        this.rotation = 0;
         update = true;
     });
 
-    // bitmap.on("rollover", function(event) {
-        
-    //     update = true;
-    // });
-
-    // bitmap.on("rollout", function(event) {
-    //     this.scaleX = this.scaleY = this.scale;
-    //     update = true;
-    // });
-
-    createjs.Ticker.addEventListener("tick", tick);
+    stage.update();
 }
 
 function tick(e) {
@@ -142,6 +142,8 @@ function tick(e) {
         stage.update(e);
     }
 }
+
+createjs.Ticker.addEventListener("tick", tick);
 
 function stop() {
     createjs.Ticker.removeEventListener("tick", tick);
