@@ -94,6 +94,10 @@ io.on('connection', function(socket) {
         }
     });
 
+    socket.on('card mousedown', function(code, cardName) {
+        socket.broadcast.to(code).emit('update card mousedown', cardName);
+    });
+
     socket.on('card moved', function(code, cardName, x, y) {
         currentGamesAndDecks[code][cardName]["x"] = x;
         currentGamesAndDecks[code][cardName]["y"] = y;

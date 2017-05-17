@@ -116,20 +116,22 @@ function handleImageLoad(e) {
         this.scaleX = this.scaleY = this.scale * 1.2;
         this.rotation = -5;
         update = true;
+
+        socket.emit('card mousedown', code, this.name);
     });
 
     bitmap.on("pressmove", function(event) {
         this.x = event.stageX + this.offset.x;
         this.y = event.stageY + this.offset.y;
         stage.update(event);
+
+        socket.emit('card moved', code, this.name, this.x, this.y); // Objects cannot be passed through a socket, yet.
     });
 
     bitmap.on("pressup", function(event) {
         this.scaleX = this.scaleY = this.scale;
         this.rotation = 0;
         update = true;
-
-        socket.emit('card moved', code, this.name, this.x, this.y);
     });
 
     stage.update();
@@ -185,11 +187,15 @@ function addPlayer() {
 
 socket.on('update card', function(cardName, x, y) {
     var cardObject = container.getChildByName(cardName);
-    container.addChild(cardObject);
     cardObject.x = x;
     cardObject.y = y;
-    console.log(x);
-    stage.update(event);
+    stage.update();
+});
+
+socket.on('update card mousedown', function(cardName) {
+    var cardObject = container.getChildByName(cardName);
+    container.addChild(cardObject);
+    update = true;
 });
 
 socket.on('update players', function(playerList) {
