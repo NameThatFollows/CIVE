@@ -9,6 +9,8 @@ var dragStarted;
 var offset;
 var update = true;
 
+var initialCardPositions;
+
 var container = new createjs.Container();
 
 var canvas = document.getElementById("game-board");
@@ -18,15 +20,12 @@ var ctx = canvas.getContext('2d');
 var cardAssets = {};
 
 function init() {
-    addPlayer();
-
     // enable touch interactions for those devices that support it
     createjs.Touch.enable(stage);
 
     stage.enableMouseOver(20); // 20 updates per second
     stage.mouseMoveOutside = true;
-
-    loadCards();
+    addPlayer();
 }
 
 /**
@@ -81,22 +80,20 @@ function loadCards() {
     image.src = "../assets/j.png";
     image.onload = handleImageLoad;
 
-    image = new Image();
-    image.name = "bb";
-    image.src = "../assets/bb.png";
-    image.onload = handleImageLoad;
+    // image = new Image();
+    // image.name = "bb";
+    // image.src = "../assets/bb.png";
+    // image.onload = handleImageLoad;
 
-    image = new Image();
-    image.name = "bg";
-    image.src = "../assets/bg.png";
-    image.onload = handleImageLoad;
+    // image = new Image();
+    // image.name = "bg";
+    // image.src = "../assets/bg.png";
+    // image.onload = handleImageLoad;
 
-    image = new Image();
-    image.name = "br";
-    image.src = "../assets/br.png";
-    image.onload = handleImageLoad;
-
-    console.log(cardAssets);
+    // image = new Image();
+    // image.name = "br";
+    // image.src = "../assets/br.png";
+    // image.onload = handleImageLoad;
 }
 
 function handleImageLoad(e) {
@@ -105,8 +102,8 @@ function handleImageLoad(e) {
 
     var bitmap = new createjs.Bitmap(image);
     container.addChild(bitmap);
-    bitmap.x = 500;
-    bitmap.y = 500;
+    bitmap.x = initialCardPositions[image.name]["x"];
+    bitmap.y = initialCardPositions[image.name]["y"];
     bitmap.regX = bitmap.image.width / 2;
     bitmap.regY = bitmap.image.height / 2;
     bitmap.scaleX = bitmap.scaleY = bitmap.scale = .8;
@@ -131,6 +128,8 @@ function handleImageLoad(e) {
         this.scaleX = this.scaleY = this.scale;
         this.rotation = 0;
         update = true;
+
+        socket.emit('card moved', code, this.name, this.x, this.y);
     });
 
     stage.update();
@@ -160,7 +159,8 @@ function addPlayer() {
 
     socket.emit('check valid game code', code);
     
-    socket.on('game code valid', function() {
+    socket.on('game code valid', function(gameID, cardDeck) {
+        socket.removeListener('game code valid');
         do {
             name = prompt("Please enter your name");
         } while (!name);
@@ -168,12 +168,29 @@ function addPlayer() {
         socket.emit('join game', name, code);
         document.getElementById("flyout-name").innerHTML = name;
         document.getElementById("flyout-game-code").innerHTML = code;
+
+        initialCardPositions = cardDeck;
+
+        console.log(cardDeck);
+
+        loadCards();
     });
 
     socket.on('game code invalid', function() {
+        socket.removeListener('game code invalid');
+
         window.location.reload();
     });
 }
+
+socket.on('update card', function(cardName, x, y) {
+    var cardObject = container.getChildByName(cardName);
+    container.addChild(cardObject);
+    cardObject.x = x;
+    cardObject.y = y;
+    console.log(x);
+    stage.update(event);
+});
 
 socket.on('update players', function(playerList) {
     var playerDiv = document.getElementById("player-list");

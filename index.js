@@ -7,12 +7,13 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var path = require('path');
 
-var currentGames = {};
+var currentGamesAndPlayers = {};
+var currentGamesAndDecks = {};
 
 app.use(express.static(path.join(__dirname, '/client')));
 
 app.get('/:id', function(req, res) {
-    if (currentGames[req.params.id]) {
+    if (currentGamesAndPlayers[req.params.id]) {
         res.sendFile(path.join(__dirname, 'client/game.html'));
     } else {
         res.redirect('/');
@@ -26,13 +27,14 @@ app.get('/', function(req, res) {
 io.on('connection', function(socket) {
     console.log('' + socket.id + ' connected');
     socket.on('disconnect', function() {
-        for (var game in currentGames) {
-            if (currentGames[game][socket.id]) {
-                delete currentGames[game][socket.id];
+        for (var game in currentGamesAndPlayers) {
+            if (currentGamesAndPlayers[game][socket.id]) {
+                delete currentGamesAndPlayers[game][socket.id];
                 updatePlayers(game);
 
-                if (Object.keys(currentGames[game]).length === 0 && currentGames[game].constructor === Object) {
-                    delete currentGames[game];
+                if (Object.keys(currentGamesAndPlayers[game]).length === 0 && currentGamesAndPlayers[game].constructor === Object) {
+                    delete currentGamesAndPlayers[game];
+                    delete currentGamesAndDecks[game];
                 }
             }
         }
@@ -47,7 +49,7 @@ io.on('connection', function(socket) {
             for (var i = 0; i < 6; i++) {
                 code += codeCharacters.charAt(Math.floor(Math.random() * codeCharacters.length));
             }
-        } while (currentGames[code]);
+        } while (currentGamesAndPlayers[code]);
 
         /**
          * currentGames {
@@ -63,34 +65,40 @@ io.on('connection', function(socket) {
          * }
          */
         var players = {};
-        currentGames[code] = players;
-        io.to(socket.id).emit('join success', code);
+        currentGamesAndPlayers[code] = players;
+        currentGamesAndDecks[code] = new CardDeck(500, 200);
         updatePlayers(code);
-        console.log(currentGames);
+        io.to(socket.id).emit('join success', code);
+        console.log(currentGamesAndPlayers);
     });
 
     socket.on('join game', function(name, code) {
-        if (currentGames[code]) {
-            currentGames[code][socket.id] = name;
-            console.log(currentGames);
+        if (currentGamesAndPlayers[code]) {
+            currentGamesAndPlayers[code][socket.id] = name;
+            console.log(currentGamesAndPlayers);
 
             // Join room named by the code
             socket.join(code);
             updatePlayers(code);
-
-            io.to(socket.id).emit('join success', name, code);
+            io.to(socket.id).emit('join success', code);
         } else {
             io.to(socket.id).emit('join game fail');
         }
     });
 
     socket.on('check valid game code', function(code) {
-        if (currentGames[code]) {
-            console.log(code);
-            io.to(socket.id).emit('game code valid', code);
+        if (currentGamesAndPlayers[code]) {
+            io.to(socket.id).emit('game code valid', code, currentGamesAndDecks[code]);
         } else {
             io.to(socket.id).emit('game code invalid');
         }
+    });
+
+    socket.on('card moved', function(code, cardName, x, y) {
+        currentGamesAndDecks[code][cardName]["x"] = x;
+        currentGamesAndDecks[code][cardName]["y"] = y;
+
+        socket.broadcast.to(code).emit('update card', cardName, x, y);
     });
 });
 
@@ -104,5 +112,29 @@ http.listen(3000, function() {
  * @param code Game code. If 6 characters, send signal to update client.
  */
 function updatePlayers(code) {
-    io.to(code).emit('update players', currentGames[code]);
+    io.to(code).emit('update players', currentGamesAndPlayers[code]);
+}
+
+function CardDeck(startX, startY) {
+    var letter = "c";
+    for (var i = 1; i <= 13; i++) {
+        this[letter + i] = {x: startX, y: startY};
+    }
+
+    letter = "d";
+    for (var i = 1; i <= 13; i++) {
+        this[letter + i] = {x: startX, y: startY};
+    }
+
+    letter = "h";
+    for (var i = 1; i <= 13; i++) {
+        this[letter + i] = {x: startX, y: startY};
+    }
+
+    letter = "s";
+    for (var i = 1; i <= 13; i++) {
+        this[letter + i] = {x: startX, y: startY};
+    }
+
+    this["j"] = {x: startX, y: startY};
 }
